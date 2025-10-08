@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import PasswordGenerator from "@/components/PasswordGenerator";
@@ -52,7 +52,7 @@ const DashboardPage = () => {
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [decryptedPassword, setDecryptedPassword] = useState("");
 
-  const fetchVaultItems = async () => {
+  const fetchVaultItems = useCallback(async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       router.push("/login");
@@ -70,11 +70,11 @@ const DashboardPage = () => {
       router.push("/login");
     }
     setIsLoading(false);
-  };
+  }, [router]); 
 
   useEffect(() => {
     fetchVaultItems();
-  }, []);
+  }, [fetchVaultItems]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -281,7 +281,7 @@ const DashboardPage = () => {
           <DialogHeader>
             <DialogTitle>Edit Vault Item</DialogTitle>
             <DialogDescription>
-              Make changes to your saved item here. Click save when you're done.
+              Make changes to your saved item here. Click save when you&apos;re done.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleUpdate} className="space-y-4 py-4">

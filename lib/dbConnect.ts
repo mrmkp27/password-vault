@@ -15,9 +15,11 @@ if (!MONGODB_URI) {
  * during API Route usage.
  */
 console.log('Connecting to MongoDB...');
+// @ts-ignore
 let cached = (global as any).mongoose;
 
 if (!cached) {
+  // @ts-ignore
   cached = (global as any).mongoose = { conn: null, promise: null };
 }
 

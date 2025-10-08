@@ -67,7 +67,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit }) => {
                 </>
               ) : (
                 <>
-                  Don't have an account?{' '}
+                  Don&apos;t have an account?{' '}
                   <Link href="/signup" className="underline">
                     Sign Up
                   </Link>
