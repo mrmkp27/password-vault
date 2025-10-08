@@ -43,7 +43,7 @@ export default async function handler(
     // Here we send it in the response body for simplicity
     res.status(200).json({ message: 'Logged in successfully', token: token });
 
-  } catch (error) {
+  } catch (_error) {
     res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 }

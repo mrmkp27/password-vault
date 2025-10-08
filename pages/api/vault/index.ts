@@ -27,7 +27,7 @@ export default async function handler(
 
   try {
     decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken;
-  } catch (error) {
+  } catch (_error) {
     return res.status(401).json({ message: 'Invalid or expired token' });
   }
 

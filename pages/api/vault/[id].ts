@@ -59,7 +59,7 @@ export default async function handler(
         }
         await VaultItem.deleteOne({ _id: id });
         res.status(200).json({ success: true, data: {} });
-      } catch (error) {
+      } catch (_error) {
         res.status(400).json({ success: false });
       }
       break;

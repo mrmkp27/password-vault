@@ -1,5 +1,4 @@
-// lib/dbConnect.ts
-import mongoose from 'mongoose';
+import mongoose, { Mongoose } from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI!;
 
@@ -9,18 +8,22 @@ if (!MONGODB_URI) {
   );
 }
 
-/**
- * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections from growing exponentially
- * during API Route usage.
- */
-console.log('Connecting to MongoDB...');
-// @ts-ignore
-let cached = (global as any).mongoose;
+// Define the type for our cached mongoose object
+type MongooseCache = {
+  conn: Mongoose | null;
+  promise: Promise<Mongoose> | null;
+};
+
+// Augment the global NodeJS scope to include our mongoose cache
+// This prevents TypeScript errors on `global.mongoose`
+declare global {
+  var mongoose: MongooseCache;
+}
+
+let cached = global.mongoose;
 
 if (!cached) {
-  // @ts-ignore
-  cached = (global as any).mongoose = { conn: null, promise: null };
+  cached = global.mongoose = { conn: null, promise: null };
 }
 
 async function dbConnect() {
@@ -34,6 +37,7 @@ async function dbConnect() {
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      console.log('MongoDB connected!');
       return mongoose;
     });
   }

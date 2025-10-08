@@ -40,7 +40,7 @@ export default async function handler(
     await newUser.save();
 
     res.status(201).json({ message: 'User created successfully!' });
-  } catch (error) {
+  } catch (_error) {
     res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 }
